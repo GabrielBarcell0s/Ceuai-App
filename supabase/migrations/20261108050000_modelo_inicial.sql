@@ -13,6 +13,7 @@ create table public.terreiros (
 create table public.usuarios (
   id uuid primary key references auth.users (id) on delete cascade,
   terreiro_id uuid not null references public.terreiros (id),
+  nome text not null check (length(trim(nome)) > 0),
   email text not null unique,
   papel text not null check (papel in ('manager', 'controlador', 'contador'))
 );
@@ -84,14 +85,15 @@ create table public.presencas_consulentes (
   unique (gira_id, consulente_id)
 );
 
--- Entidade em consulta na gira, dona de uma fila (120).
+-- Entidade numa gira, dona de uma fila (120). Um registro por entidade por gira;
+-- em_consulta liga ao colocar em consulta e desliga em "Finalizar consulta" ou médium ausente (100, 120).
 create table public.consultas (
   id uuid primary key,
   terreiro_id uuid not null references public.terreiros (id),
   gira_id uuid not null references public.giras (id),
   entidade_id uuid not null references public.entidades (id),
-  status text not null default 'em_consulta'
-    check (status in ('em_consulta', 'congelada', 'encerrada'))
+  em_consulta boolean not null default true,
+  unique (gira_id, entidade_id)
 );
 
 -- Fila (130, 150). posicao é espaçada e interna; a tela mostra 1, 2, 3.
@@ -102,7 +104,7 @@ create table public.entradas_fila (
   consulente_id uuid not null references public.consulentes (id),
   posicao bigint not null,
   status text not null default 'aguardando'
-    check (status in ('aguardando', 'em_atendimento', 'atendido', 'removido', 'encerrado')),
+    check (status in ('aguardando', 'em_atendimento', 'atendido', 'removido', 'devolvido', 'encerrado')),
   chegada_em timestamptz not null
 );
 
@@ -133,7 +135,6 @@ create table public.atendimentos (
 -- Índices de leitura frequente.
 create index on public.entidades (medium_id);
 create index on public.consulentes (terreiro_id, lower(nome));
-create index on public.consultas (gira_id);
 create index on public.entradas_fila (consulta_id, posicao);
 create index on public.atendimentos (gira_id);
 

@@ -33,25 +33,19 @@ export function ativarGira(gira: Gira, girasDoTerreiro: readonly Gira[]): Gira {
   return transicionar(gira, 'ativa');
 }
 
-/** Pendências que pedem confirmação antes de finalizar (90, caso de borda). */
-export interface PendenciasGira {
-  naFila: number;
-  emAtendimento: number;
-}
-
-export function temPendencias(p: PendenciasGira): boolean {
-  return p.naFila > 0 || p.emAtendimento > 0;
-}
-
 /**
- * Finaliza a gira ativa (90). Com pendências, a tela pede confirmação antes;
- * confirmando, o que estava aberto é encerrado pela camada de Dados.
+ * Finaliza a gira ativa (90). Com pendências (pendenciasDasConsultas, em consulta.ts),
+ * a tela pede confirmação mostrando cada entidade com atendimento em andamento e o
+ * tamanho da fila; confirmando, a camada de Dados encerra o que estava aberto (encerrarAbertos).
  */
 export function finalizarGira(gira: Gira): Gira {
   return transicionar(gira, 'finalizada');
 }
 
-/** Cancela gira agendada ou ativa; registros permanecem no histórico (170). */
+/**
+ * Cancela gira agendada ou ativa; registros permanecem no histórico (170).
+ * Gira ativa com pendências: mesma confirmação e mesmo encerramento de finalizar.
+ */
 export function cancelarGira(gira: Gira): Gira {
   return transicionar(gira, 'cancelada');
 }

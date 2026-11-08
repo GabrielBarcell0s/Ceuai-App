@@ -38,7 +38,7 @@ export function presencaConsulente(consulenteId: string, presente = true): Prese
 }
 
 export function consulta(p: Partial<Consulta> = {}): Consulta {
-  return { id: 'q1', terreiroId: T, giraId: 'g1', entidadeId: 'e1', status: 'em_consulta', ...p };
+  return { id: 'q1', terreiroId: T, giraId: 'g1', entidadeId: 'e1', emConsulta: true, ...p };
 }
 
 export function erroDe(fn: () => unknown): string | undefined {

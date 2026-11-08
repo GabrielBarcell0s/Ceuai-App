@@ -23,6 +23,7 @@ import type {
   TipoLista,
   Usuario,
 } from './types';
+import type { PendenciaConsulta } from './consulta';
 import type { Movimento } from './fila';
 
 export interface Observavel<T> {
@@ -33,20 +34,25 @@ export interface Observavel<T> {
 export interface ContaRepository {
   sessaoAtual(): Observavel<Usuario | null>;
   /** online */ existeAlgumaConta(): Promise<boolean>;
-  /** online */ criarContaManager(email: string, senha: string): Promise<Usuario>;
+  /** online */ criarContaManager(dados: {
+    nome: string;
+    email: string;
+    senha: string;
+  }): Promise<Usuario>;
   /** online na primeira vez no aparelho; depois a sessão vale offline */
   entrar(email: string, senha: string): Promise<Usuario>;
   sair(): Promise<void>;
   /** online */ pedirRedefinicaoDeSenha(email: string): Promise<void>;
   usuarios(): Observavel<Usuario[]>;
   /** online */ criarConta(dados: {
+    nome: string;
     email: string;
     senha: string;
     papel: Exclude<Papel, 'manager'>;
   }): Promise<Usuario>;
   /** online */ editarConta(
     id: Id,
-    dados: { email?: string; papel?: Papel; senha?: string },
+    dados: { nome?: string; email?: string; papel?: Papel; senha?: string },
   ): Promise<Usuario>;
   pode(acao: Acao): boolean;
 }
@@ -84,18 +90,24 @@ export interface GiraRepository {
   giraAtiva(): Observavel<Gira | null>;
   criar(dados: { tipo: TipoGira; dataHora: string | null }): Promise<Gira>;
   ativar(id: Id): Promise<void>;
-  /** Pendências para a confirmação de finalizar. */
-  pendencias(id: Id): Promise<{ naFila: number; emAtendimento: number }>;
+  /** O que a confirmação de finalizar ou cancelar mostra (90, 170). */
+  pendencias(id: Id): Promise<PendenciaConsulta[]>;
   /** Encerra o que estiver aberto (90). */
   finalizar(id: Id): Promise<void>;
+  /** Cancelando gira ativa, encerra o que estiver aberto, como finalizar (170). */
   cancelar(id: Id): Promise<void>;
 }
 
 /** Presenças da gira ativa (100, 110). */
 export interface PresencaRepository {
   presencasDeMediuns(giraId: Id): Observavel<PresencaMedium[]>;
+  /** O que a confirmação mostra antes de marcar ausente um médium com entidade em consulta (100). */
+  pendenciasDoMedium(giraId: Id, mediumId: Id): Promise<PendenciaConsulta[]>;
+  /** Ausente finaliza as consultas das entidades dele, como "Finalizar consulta" (100, 120). */
   marcarMedium(giraId: Id, mediumId: Id, presente: boolean): Promise<void>;
   presencasDeConsulentes(giraId: Id): Observavel<PresencaConsulente[]>;
+  /** Presentes sem fila, prontos para entrar em uma (120, 130). */
+  naoAtribuidos(giraId: Id): Observavel<Consulente[]>;
   marcarConsulente(giraId: Id, consulenteId: Id, presente: boolean): Promise<void>;
 }
 
@@ -103,17 +115,19 @@ export interface PresencaRepository {
 export interface ConsultaRepository {
   consultas(giraId: Id): Observavel<Consulta[]>;
   entidadesDisponiveis(giraId: Id): Observavel<Entidade[]>;
+  /** Liga de novo o registro se a entidade já esteve em consulta nesta gira. */
   colocarEmConsulta(giraId: Id, entidadeId: Id): Promise<Consulta>;
-  tirarDeConsulta(consultaId: Id): Promise<Consulta>;
+  /** O que a confirmação de "Finalizar consulta" mostra. */
+  pendencias(consultaId: Id): Promise<PendenciaConsulta>;
+  /** Finaliza o atendimento em andamento e devolve a fila para não atribuídos (120). */
+  finalizarConsulta(consultaId: Id): Promise<void>;
   fila(consultaId: Id): Observavel<EntradaFila[]>;
   /** Também marca a presença do consulente na gira. */
   adicionarNaFila(consultaId: Id, consulenteId: Id): Promise<EntradaFila>;
   removerDaFila(entradaId: Id): Promise<void>;
   mover(entradaId: Id, movimento: Movimento): Promise<void>;
-  /** Fila congelada: leva a entrada para a fila de outra consulta ativa. */
-  redistribuir(entradaId: Id, paraConsultaId: Id): Promise<void>;
   iniciarAtendimento(entradaId: Id): Promise<Atendimento>;
-  /** Encerra a consulta se a fila zerou. */
+  /** Fila zerada não tira a entidade de consulta (140). */
   finalizarAtendimento(entradaId: Id): Promise<void>;
   desfazerAtendimento(entradaId: Id): Promise<void>;
   atendimentos(giraId: Id): Observavel<Atendimento[]>;

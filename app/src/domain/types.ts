@@ -19,6 +19,8 @@ export interface Terreiro {
 export interface Usuario {
   id: Id;
   terreiroId: Id;
+  /** Obrigatório; é como o app cumprimenta ("Axé, Rosana") (5, 10). */
+  nome: string;
   email: string;
   papel: Papel;
 }
@@ -92,23 +94,26 @@ export interface PresencaConsulente {
 }
 
 /**
- * Entidade em consulta numa gira normal, dona de uma fila própria (120).
- * em_consulta → encerrada (fila zerou, 140) | congelada (saiu com fila, 120) → encerrada (fila redistribuída).
+ * Entidade numa gira normal, dona de uma fila própria (120). Um registro por entidade por gira.
+ * emConsulta liga ao colocar em consulta e desliga em "Finalizar consulta" ou com o médium
+ * marcado ausente (100, 120); pode ligar de novo na mesma gira. Fila zerada não desliga (140).
  */
-export type StatusConsulta = 'em_consulta' | 'congelada' | 'encerrada';
 export interface Consulta {
   id: Id;
   terreiroId: Id;
   giraId: Id;
   entidadeId: Id;
-  status: StatusConsulta;
+  emConsulta: boolean;
 }
 
 /**
  * Lugar de um consulente na fila de uma consulta (130, 140, 150).
  * posicao é espaçada (1000, 2000...) e interna: a tela mostra 1, 2, 3.
+ * devolvido: a consulta foi finalizada e o consulente voltou a não atribuído (120).
+ * encerrado: a gira foi finalizada ou cancelada com ele aguardando (90, 170).
  */
-export type StatusEntrada = 'aguardando' | 'em_atendimento' | 'atendido' | 'removido' | 'encerrado';
+export type StatusEntrada =
+  'aguardando' | 'em_atendimento' | 'atendido' | 'removido' | 'devolvido' | 'encerrado';
 export interface EntradaFila {
   id: Id;
   terreiroId: Id;

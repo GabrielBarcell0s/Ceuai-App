@@ -4,7 +4,7 @@
  */
 export type DomainErrorCode =
   | 'SEM_PERMISSAO' // papel não pode executar a ação (histórias 10, 40 e todas de operação)
-  | 'NOME_OBRIGATORIO' // médium, consulente, entidade e opção de lista (50, 60, 65, 70)
+  | 'NOME_OBRIGATORIO' // usuário, médium, consulente, entidade e opção de lista (5, 10, 50, 60, 65, 70)
   | 'EMAIL_INVALIDO' // conta de usuário (5, 10)
   | 'EMAIL_JA_CADASTRADO' // 10
   | 'CONTA_MANAGER_JA_EXISTE' // primeiro acesso só sem contas (5)
@@ -15,7 +15,7 @@ export type DomainErrorCode =
   | 'TIPO_DE_GIRA_INCORRETO' // consultas só em gira normal; lote só em trabalho de fogo (120, 160)
   | 'MEDIUM_AUSENTE' // entidade só entra em consulta com médium presente (120)
   | 'ENTIDADE_JA_EM_CONSULTA' // 120
-  | 'CONSULTA_NAO_ATIVA' // fila só recebe e atende em consulta ativa (130, 140)
+  | 'CONSULTA_NAO_ATIVA' // fila só recebe e atende em consulta ligada; finalizar só a ligada (120, 130, 140)
   | 'CONSULENTE_JA_NA_FILA' // uma entrada por consulente por fila (130)
   | 'ATENDIMENTO_EM_ANDAMENTO' // um atendimento por vez na fila (140, protótipo)
   | 'MOVIMENTO_INVALIDO' // subir no topo, descer no fim (150)

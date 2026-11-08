@@ -17,8 +17,8 @@
 | `permissoes.ts`   | `Acao`, `pode()`, `exigirPermissao()`                                                   | 10–180                    |
 | `cadastros.ts`    | Nome obrigatório, e-mail, primeiro acesso, tipo de gira, opção duplicada, nome parecido | 5, 10, 50, 60, 65, 70, 80 |
 | `gira.ts`         | Estados agendada → ativa → finalizada / cancelada, uma ativa por vez                    | 80, 90, 170               |
-| `presenca.ts`     | Entrar na fila marca presença                                                           | 100, 110, 130             |
-| `consulta.ts`     | Entidade em consulta, congelar e encerrar a fila                                        | 120, 140                  |
+| `presenca.ts`     | Entrar na fila marca presença, consulentes não atribuídos                               | 100, 110, 120, 130        |
+| `consulta.ts`     | Flag em consulta, finalizar consulta, médium ausente, pendências da confirmação         | 90, 100, 120, 140, 170    |
 | `fila.ts`         | Posição espaçada, mover (subir, descer, topo), numeração exibida                        | 130, 150                  |
 | `atendimento.ts`  | Iniciar, finalizar, desfazer, remover, encerrar abertos                                 | 90, 130, 140              |
 | `fogo.ts`         | Lote e atendimento individual                                                           | 160                       |

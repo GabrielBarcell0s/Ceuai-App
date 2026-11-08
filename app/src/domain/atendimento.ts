@@ -61,7 +61,10 @@ export function removerDaFila(entrada: EntradaFila): EntradaFila {
   return { ...entrada, status: 'removido' };
 }
 
-/** Ao finalizar a gira com pendências, o que estava aberto é encerrado (90). */
+/**
+ * Ao finalizar ou cancelar a gira com pendências, o que estava aberto é encerrado (90, 170):
+ * atendimento em andamento ganha fim, quem aguardava fica encerrado.
+ */
 export function encerrarAbertos(
   entradas: readonly EntradaFila[],
   atendimentos: readonly Atendimento[],

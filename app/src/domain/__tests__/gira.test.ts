@@ -4,7 +4,6 @@ import {
   exigirGiraAtiva,
   finalizarGira,
   podeTransicionar,
-  temPendencias,
 } from '../gira';
 import { erroDe, gira } from '../__fixtures__/helpers';
 
@@ -52,11 +51,5 @@ describe('máquina de estados da gira', () => {
     expect(erroDe(() => exigirGiraAtiva(null))).toBe('NENHUMA_GIRA_ATIVA');
     expect(erroDe(() => exigirGiraAtiva(gira()))).toBe('NENHUMA_GIRA_ATIVA');
     expect(exigirGiraAtiva(gira({ status: 'ativa' })).id).toBe('g1');
-  });
-
-  it('finalizar com fila ou atendimento aberto pede confirmação (90)', () => {
-    expect(temPendencias({ naFila: 0, emAtendimento: 0 })).toBe(false);
-    expect(temPendencias({ naFila: 2, emAtendimento: 0 })).toBe(true);
-    expect(temPendencias({ naFila: 0, emAtendimento: 1 })).toBe(true);
   });
 });

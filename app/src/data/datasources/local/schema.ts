@@ -8,7 +8,12 @@ const comTerreiro = { terreiro_id: column.text };
 
 export const schema = new Schema({
   terreiros: new Table({ nome: column.text }),
-  usuarios: new Table({ ...comTerreiro, email: column.text, papel: column.text }),
+  usuarios: new Table({
+    ...comTerreiro,
+    nome: column.text,
+    email: column.text,
+    papel: column.text,
+  }),
   opcoes_lista: new Table({ ...comTerreiro, tipo: column.text, nome: column.text }),
   mediuns: new Table({
     ...comTerreiro,
@@ -47,7 +52,7 @@ export const schema = new Schema({
     ...comTerreiro,
     gira_id: column.text,
     entidade_id: column.text,
-    status: column.text,
+    em_consulta: column.integer,
   }),
   entradas_fila: new Table({
     ...comTerreiro,
