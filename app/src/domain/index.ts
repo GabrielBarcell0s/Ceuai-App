@@ -1,2 +1,11 @@
-// Camada de Domínio: entidades, regras e interfaces de repositório nascem na start-3.
-export {};
+export * from './atendimento';
+export * from './cadastros';
+export * from './consulta';
+export * from './errors';
+export * from './fila';
+export * from './fogo';
+export * from './gira';
+export * from './permissoes';
+export * from './presenca';
+export type * from './repositories';
+export type * from './types';

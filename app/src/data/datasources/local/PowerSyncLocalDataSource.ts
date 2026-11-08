@@ -1,10 +1,8 @@
 import '@azure/core-asynciterator-polyfill';
-import { PowerSyncDatabase, Schema } from '@powersync/react-native';
+import { PowerSyncDatabase } from '@powersync/react-native';
 
 import type { LocalDataSource } from './LocalDataSource';
-
-// Schema vazio até a start-3 modelar as tabelas.
-export const schema = new Schema({});
+import { schema } from './schema';
 
 export class PowerSyncLocalDataSource implements LocalDataSource {
   readonly db = new PowerSyncDatabase({ schema, database: { dbFilename: 'ceuai.sqlite' } });

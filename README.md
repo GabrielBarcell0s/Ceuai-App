@@ -22,7 +22,7 @@ app/                  App Expo
     datasources/local/   SQLite via PowerSync (offline)
     datasources/remote/  Supabase (futuramente API em C#)
   src/config/         variáveis de ambiente
-supabase/             migrations, Edge Functions e configuração do backend
+supabase/             migrations (Postgres + RLS), regras de sync do PowerSync e Edge Functions
 ```
 
 Cada camada tem um `CLAUDE.md` explicando o que ela faz e o que não faz. As fronteiras são verificadas pelo lint.
