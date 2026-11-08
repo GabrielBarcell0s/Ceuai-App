@@ -18,7 +18,7 @@ Protótipo das telas: https://claude.ai/artifact/Wuw3Xy1rB3M3PP7y8w3jcG (especif
 
 Monorepo: `app/` (Expo) e `supabase/` (backend).
 
-- **App** (`app/src/app`, `app/src/ui`): telas, navegação, componentes, estado de tela. Nunca fala com rede nem banco: chama repositórios/casos de uso.
+- **App** (`app/src/app`, `app/src/ui`): telas, navegação, componentes, estado de tela. Nunca fala com rede nem banco: chama repositórios/casos de uso. Antes de criar componente, consulte o inventário em `app/src/ui/CLAUDE.md`.
 - **Domínio** (`app/src/domain`): TypeScript puro. Entidades, estados da gira, fila, atendimento, lote do fogo, permissões por papel e as interfaces dos repositórios. Não importa React Native, PowerSync nem Supabase.
 - **Dados** (`app/src/data`): implementa os repositórios do Domínio sobre duas fontes:
   - `datasources/local` → `LocalDataSource` (SQLite via PowerSync): toda leitura e escrita do dia a dia, offline.

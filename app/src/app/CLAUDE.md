@@ -10,6 +10,8 @@
 
 **Conversa com:** repositórios e casos de uso expostos por `@/data` e tipos de `@/domain`. Dados reativos chegam por hooks da camada de Dados.
 
+**Rotas:** `login`, `primeiro-acesso`, `redefinir-senha` (públicas); `(app)/` exige sessão (sem sessão vai para o login, carregando mostra esqueleto, erro inesperado cai no `ErrorBoundary`). Dentro: `index` (início), `gira-ativa`, `giras`, `consulentes`, `mediuns`, `entidades`, `usuarios`, `configuracoes`, `presenca-mediuns`, `presenca-consulentes`, `consultas`, `fila/[consultaId]`, `fogo`. Cada uma é casca envolta em `Restrita`; o card preenche o corpo. Inventário de componentes em `src/ui/CLAUDE.md`.
+
 **Padrões:**
 
 - Todo arquivo `.tsx` aqui é rota; componente reutilizável vai para `src/ui/`.

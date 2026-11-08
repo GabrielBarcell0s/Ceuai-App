@@ -4,7 +4,9 @@
 
 - `datasources/local/` — `LocalDataSource`, implementado por `PowerSyncLocalDataSource` (SQLite via PowerSync). Toda leitura e escrita do dia a dia, offline.
 - `datasources/remote/` — `RemoteDataSource`, implementado por `SupabaseRemoteDataSource`. Auth, ações só-online (primeiro acesso, contas, redefinir senha) e envio das alterações pendentes (o `uploadData` do conector PowerSync delega para ela). A futura API em C# é outra implementação desta interface.
-- `repositories/` — implementações dos repositórios que o App consome.
+- `repositories/` — implementações dos repositórios que o App consome. `repositories/index.ts` (`criarRepositorios`) é a raiz de composição: cada card acrescenta ali o repositório que implementa.
+- `datasources/local/observar.ts` — transforma uma consulta SQL local em `Observavel` (o PowerSync reemite quando as tabelas mudam). Base de toda leitura.
+- `react/` — o que a tela usa: `RepositoriosProvider`, `useRepositorio(nome)` (falha alto se o card ainda não existe), `useObservavel` (carregando, pronto, erro), `useAcao` (escrita com enviando e erro), `SessaoProvider`/`useSessao`/`usePode`, `useContextoDaGira`.
 
 **Não faz:**
 
