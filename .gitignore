@@ -1,0 +1,11 @@
+# Ambientes: nunca versionar (repositório público, LGPD)
+.env
+.env.*
+!.env.example
+
+# Dependências e builds
+node_modules/
+.expo/
+dist/
+*.apk
+*.aab
