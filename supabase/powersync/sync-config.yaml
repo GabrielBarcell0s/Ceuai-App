@@ -1,0 +1,22 @@
+# Sync Streams do PowerSync (start-3). Colar na instância dev e prod: Dashboard > instância > Sync Streams.
+# Cada aparelho recebe só os dados do terreiro do usuário logado.
+config:
+  edition: 3
+
+streams:
+  terreiro:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM terreiros WHERE id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM usuarios WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM opcoes_lista WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM mediuns WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM entidades WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM consulentes WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM giras WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM presencas_mediuns WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM presencas_consulentes WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM consultas WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM entradas_fila WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM lotes WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
+      - SELECT * FROM atendimentos WHERE terreiro_id IN (SELECT terreiro_id FROM usuarios WHERE id = auth.user_id())
