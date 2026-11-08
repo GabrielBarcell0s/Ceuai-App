@@ -51,7 +51,11 @@ Monorepo: `app/` (Expo) e `supabase/` (backend).
 
 ## Comandos
 
-Preenchidos pela start-2 quando o esqueleto existir (instalar, rodar, testar, lint, migrations).
+Rodar de dentro de `app/` (detalhes e comandos que dependem do aparelho em `app/CLAUDE.md`):
+
+- `npm ci` · `npm test` · `npm run lint` · `npm run typecheck` · `npm run format:check`
+
+O CI (`.github/workflows/ci.yml`) roda esses mesmos passos em todo PR. Backend: ver `supabase/CLAUDE.md`.
 
 ## Lista de Proibições (vale no app real, não só no protótipo)
 
