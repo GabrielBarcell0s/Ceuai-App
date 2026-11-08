@@ -29,7 +29,7 @@ Monorepo: `app/` (Expo) e `supabase/` (backend).
 ## Regras de dados offline (do briefing)
 
 - IDs gerados no aparelho (UUID).
-- Posição na fila com numeração espaçada (1000, 2000...).
+- Posição na fila com numeração espaçada (1000, 2000...) é dado interno, só para ordenar sem reescrever a fila. Na tela o consulente aparece numerado em sequência (1, 2, 3...), calculado pela ordem atual.
 - Status da gira: última escrita vence.
 - Toda história que registra dado tem "funciona sem internet e sincroniza depois" como critério de aceite.
 - Dado sensível (LGPD): nome/telefone/e-mail ligados a prática religiosa. RLS sempre ligado; nunca logar dado pessoal.
