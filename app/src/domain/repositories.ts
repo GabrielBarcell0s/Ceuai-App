@@ -133,6 +133,14 @@ export interface ConsultaRepository {
   atendimentos(giraId: Id): Observavel<Atendimento[]>;
 }
 
+/**
+ * Estado da sincronização, mostrado em toda tela ("Sem conexão. Registrando no aparelho").
+ * Origem: requisito transversal do briefing (tudo funciona sem internet) e protótipo.
+ */
+export interface SincronizacaoRepository {
+  conectado(): Observavel<boolean>;
+}
+
 /** Trabalho de fogo (160). */
 export interface FogoRepository {
   loteAberto(giraId: Id): Observavel<Lote | null>;
@@ -142,4 +150,17 @@ export interface FogoRepository {
   /** Remove só o atendimento deste consulente, sem afetar o resto do lote. */
   desfazer(atendimentoId: Id): Promise<void>;
   atendimentos(giraId: Id): Observavel<Atendimento[]>;
+}
+
+/** Todos os repositórios que a camada de Dados entrega para o App. */
+export interface Repositorios {
+  contas: ContaRepository;
+  listas: ListaRepository;
+  mediuns: MediumRepository;
+  consulentes: ConsulenteRepository;
+  giras: GiraRepository;
+  presencas: PresencaRepository;
+  consultas: ConsultaRepository;
+  fogo: FogoRepository;
+  sincronizacao: SincronizacaoRepository;
 }
